@@ -6,21 +6,22 @@ fail() {
   exit 1
 }
 
-if [ "$#" -ne 1 ]; then
-  fail "usage: scripts/release.sh <version>"
+if [ "$#" -ne 2 ]; then
+  fail "usage: scripts/release.sh <version> <r-version>"
 fi
 
 version="$1"
+r_version="$2"
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"
 
-# Validate the <version> exists in source/
-[ -d "source/$version" ] || fail "source/$version does not exist"
+# Validate the <r_version> exists in source/
+[ -d "source/$r_version" ] || fail "source/$r_version does not exist"
 
-# Assert <version> is the newest folder in source/ (numeric version sort)
+# Assert <r_version> is the newest folder in source/ (numeric version sort)
 newest="$(ls source | sort -V | tail -n1)"
-[ "$version" = "$newest" ] || fail "$version is not the newest version in source/ ($newest)"
+[ "$r_version" = "$newest" ] || fail "$r_version is not the newest version in source/ ($newest)"
 
 # Refuse to clobber an existing release
 if gh release view "$version" >/dev/null 2>&1; then
@@ -31,7 +32,7 @@ fi
 cargo xtask compress
 
 # Create the release with the single asset, empty notes, marked latest
-gh release create "$version" r-source.tar.zst --title "$version" --notes "" --latest
+gh release create "$version" r-source.tar.zst --title "$version (R $r_version)" --notes "" --latest
 
 # Clean up
 rm -f r-source.tar.zst
