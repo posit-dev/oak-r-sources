@@ -19,7 +19,7 @@ just release v2 4.7.0
 
 Bump the GitHub Release version by 1 between releases, i.e. `v2` to `v3`. You'll need to check and see what the most recent release version is and do 1 beyond that. Keeping the release version separate from the R version lets us fix any mistakes or make changes to releases separate from new R releases.
 
-On the Ark side, update `OAK_R_SOURCES_ASSET_VERSION` and `OAK_R_SOURCES_LATEST_R_VERSION` to reflect the latest release.
+On the Ark side, update `OAK_R_SOURCES_RELEASE_VERSION` and `OAK_R_SOURCES_LATEST_R_VERSION` to reflect the latest release.
 
 Ark will then download this Asset via this URL: <https://github.com/posit-dev/oak-r-sources/releases/download/v2/r-source.tar.zst>.
 
